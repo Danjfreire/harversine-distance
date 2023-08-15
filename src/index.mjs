@@ -3,29 +3,28 @@ import { parseJson } from "./json-parser.mjs";
 import { readFileSync } from "node:fs"
 import { Profiler } from "./profiler.mjs";
 
-const profiler = new Profiler();
 
-profiler.start();
+Profiler.start();
 
-profiler.time("input");
+Profiler.time("input");
 const input = readFileSync("./input.json", { encoding: 'utf-8' });
-profiler.timeEnd("input");
+Profiler.timeEnd("input");
 
-profiler.time("parse");
+Profiler.time("parse");
 const parsedInput = parseJson(input);
-profiler.timeEnd("parse");
+Profiler.timeEnd("parse");
 
-profiler.time("distance-calc");
+Profiler.time("distance-calc");
 let distanceAccumulator = 0;
 for (const coords of parsedInput.coordinates) {
     let { x0, y0, x1, y1 } = coords;
     distanceAccumulator += haversineDistance(x0, y0, x1, y1);
 }
-profiler.timeEnd("distance-calc");
+Profiler.timeEnd("distance-calc");
 
-profiler.time("output");
+Profiler.time("output");
 console.log("Average :" + distanceAccumulator / parsedInput.coordinates.length);
 console.log("-------------------------------------")
-profiler.timeEnd("output");
+Profiler.timeEnd("output");
 
-profiler.stopAndPrint();
+Profiler.stopAndPrint();

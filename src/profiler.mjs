@@ -3,16 +3,16 @@ import { estimateCPUtimerFreq } from "./timer-utils.mjs";
 
 export class Profiler {
 
-    startTime;
-    stopTime;
-    operationStarts = {};
-    operationStops = {};
+    static startTime;
+    static stopTime;
+    static operationStarts = {};
+    static operationStops = {};
 
-    start(){
+    static start(){
         this.startTime = rdtsc();
     }
 
-    stopAndPrint(){
+    static stopAndPrint(){
         this.stopTime = rdtsc();
         
         const cpuFreq = estimateCPUtimerFreq();
@@ -34,14 +34,14 @@ export class Profiler {
         }
     }
 
-    reset(){
+    static reset(){
         this.startTime = undefined;
         this.stopTime = undefined;
         this.operationStarts = {};
         this.operationStops = {};
     }
 
-    time(operation){
+    static time(operation){
         if(this.startTime === undefined){
             this.start();
         }
@@ -51,7 +51,7 @@ export class Profiler {
         }
     }
 
-    timeEnd(operation){
+    static timeEnd(operation){
         if(this.operationStops[operation] === undefined){
             this.operationStops[operation] = rdtsc();
         }
